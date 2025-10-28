@@ -42,6 +42,10 @@ h3, a, p, label, textarea, button{
     color: var(--black);
 }
 
+.notyf{
+    font-family: var(--poppins-font);
+}
+
 /* Navbar */
 .nav{
     display: flex;
