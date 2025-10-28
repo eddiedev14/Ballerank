@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ballerank</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/png" href="assets/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="assets/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Ballerank" />
+    <link rel="manifest" href="assets/favicon/site.webmanifest" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <script type="module" src="js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__logo">
+                <img src="assets/Logo.webp" alt="Logo">
+                <h3 class="nav__name">Balle<span>rank</span></h3>
+            </div>
+            <ul class="nav__list">
+                <li class="nav__item"><a href="index.html">Inicio</a></li>
+                <li class="nav__item"><a href="#">Documentacion</a></li>
+            </ul>
+            <a href="#main" class="nav__cta">¡Probar Ahora!</a>
+        </nav>
+
+        <section class="hero">
+            <div class="grid">
+                <img src="assets/Grid-1.webp" alt="Grid Image 1">
+                <img src="assets/Grid-2.webp" alt="Grid Image 2">
+                <img src="assets/Grid-3.webp" alt="Grid Image 3">
+                <img src="assets/Grid-4.webp" alt="Grid Image 4">
+            </div>
+            <div class="hero__content">
+                <h1 class="hero__title">BALLERANK</h1>
+                <p class="hero__paragraph">Convierte la emoción del Concurso de Triples en código. ¡Analiza, calcula y descubre quién es el rey de los tres puntos!</p>
+            </div>
+        </section>
+    </header>
+
+    <main class="main" id="main">
+        <form class="main__form" id="formulario">
+            <div class="form__group">
+                <label for="concurso" class="form__label">CONCURSO</label>
+                <textarea name="concurso" id="concurso" class="form__textarea" placeholder="Ingresa aquí la cadena del concurso"></textarea>
+            </div>
+            <button type="submit" class="form__btn">Procesar Entrada</button>
+        </form>
+        <section class="result">
+            <h2 class="result__title">RESULTADO CONCURSO</h2>
+            <p class="result__text" id="resultado"></p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <img src="assets/UAO.webp" alt="UAO Logo">
+        <p class="footer__text">Eddie Santiago Delgado Campo, Manuel Betancur Pérez, Bryan Gómez Taborda</p>
+    </footer>
+</body>
+</html>
