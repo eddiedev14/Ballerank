@@ -20,7 +20,7 @@ formulario.addEventListener("submit", function(e) {
     }
 
     // Llamar a la función para procesar el concurso
-    const salida = resolverConcursoTriples()
+    const salida = resolverConcursoTriples(concurso)
 
     // Mostrar resultado
     resultado.textContent = salida;
