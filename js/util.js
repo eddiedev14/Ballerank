@@ -1,39 +1,29 @@
 export default function resolverConcursoTriples(concurso){
     //* Separar la lista de jugadores y los datos de lanzamientos
     const info = concurso.split("--") // -> [jugadores, lanzamientos]
+    const jugadores = info[0].split(",") // -> [jugador1, jugador2, jugador3]
     const lanzamientos = info[1].split("*") // -> [lanzamiento1, lanzamiento2, lanzamiento3]
 
-    // * Crear un arreglo con los lanzamientos de cada jugador
-    const intentos = lanzamientos.map(lanzamiento => {
-        // Separar el nombre del jugador y sus tiros
+    // * Crear un objeto para mapear los lanzamientos, donde la key es el nombre del jugador y el valor un array con sus lanzamientos
+    const lanzamientosMapper = new Map();
+    jugadores.forEach(jugador => {
+        lanzamientosMapper.set(jugador, []);
+    });
+
+    // * Añadir lanzamientos en el objeto lanzamientosMapper
+    lanzamientos.forEach(lanzamiento => {
         const lanzamientoInfo = lanzamiento.split(":") // -> [nombreJugador, tiros]
-        const nombre = lanzamientoInfo[0]
+        const jugador = lanzamientoInfo[0]
         const tirosStr = lanzamientoInfo[1]
 
         // Convertir los tiros en números y guardarlos en un array
         const tiros = tirosStr.split(" ").map(x => parseInt(x)) // -> [tiro1, tiro2, tiro3]
 
-        // Retornar un objeto en el arreglo intentos con nombre y tiros
-        return {
-            jugador: nombre,
-            lanzamientos: tiros
-        }
+        // Añadir los tiros al jugador correspondiente
+        lanzamientosMapper.get(jugador).push(tiros)
     })
 
-    //* Agrupar lanzamientos por jugador -> key: nombre, value: arreglo de intentos
-    const agrupados = {}
-
-    intentos.forEach(intento => {
-        // Si el jugador no existe aún en el objeto, se inicializa con un arreglo vacío
-        if (!agrupados[intento.jugador]) {
-            agrupados[intento.jugador] = []
-        }
-
-        // Se agrega el intento al final de la lista del jugador
-        agrupados[intento.jugador].push(intento.lanzamientos)
-    });
-
-    console.log(agrupados)
+    console.log(lanzamientosMapper)
 
     return ""
 }
