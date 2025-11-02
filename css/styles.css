@@ -195,6 +195,7 @@ h3, a, p, label, textarea, button{
 }
 
 .result__text{
+    white-space: pre;
     font-weight: 500;
 }
 
