@@ -87,7 +87,7 @@ export default function resolverConcursoTriples(concurso){
         const puntosTotales = resultado.puntosTotales;
         const moneyBalls = resultado.moneyBalls;
 
-        salida += `${posicion}) ${jugador} ${puntosTotales}p, ${moneyBalls}m\n`
+        salida += `${posicion}) ${jugador} ${puntosTotales}p ${moneyBalls}m\n`
     })
 
     // Se retorna la salida
