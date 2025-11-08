@@ -1,68 +1,66 @@
 export default function resolverConcursoTriples(concurso){
     //* Separar la lista de jugadores y los datos de lanzamientos
-    const info = concurso.split("--") // -> [jugadores, lanzamientos]
-    const jugadores = info[0].split(",") // -> [jugador1, jugador2, jugador3]
-    const lanzamientos = info[1].split("*") // -> [lanzamiento1, lanzamiento2, lanzamiento3]
+    const [jugadoresStr, lanzamientosStr] = concurso.split("--")
+    const jugadores = jugadoresStr.split(",") // -> [jugador1, jugador2, jugador3]
+    const lanzamientos = lanzamientosStr.split("*") // -> [lanzamiento1, lanzamiento2, lanzamiento3]
 
-    // * Crear un objeto para mapear los lanzamientos, donde la key es el nombre del jugador y el valor un array con sus lanzamientos
+    // * Crear un objeto para mapear los lanzamientos, donde la key es el nombre del jugador y el valor un objeto con sus puntos y moneyballs
     const lanzamientosMapper = {};
     jugadores.forEach(jugador => {
-        lanzamientosMapper[jugador] = [];
+        lanzamientosMapper[jugador] = {
+            puntosTotales: 0,
+            moneyBalls: 0
+        };
     });
 
-    // * Añadir lanzamientos en el objeto lanzamientosMapper
+    //* Recorrer los lanzamientos
     lanzamientos.forEach(lanzamiento => {
-        const lanzamientoInfo = lanzamiento.split(":") // -> [nombreJugador, tiros]
-        const jugador = lanzamientoInfo[0]
-        const tirosStr = lanzamientoInfo[1]
+        const [jugador, tirosStr] = lanzamiento.split(":")
+        const datosJugador = lanzamientosMapper[jugador]
 
-        // Convertir los tiros en números y guardarlos en un array
-        const tiros = tirosStr.split(" ").map(x => parseInt(x)) // -> [tiro1, tiro2, tiro3]
+        // Variables de conteo
+        let puntos = 0;
+        let moneyBall = 0;
 
-        // Añadir los tiros al jugador correspondiente
-        lanzamientosMapper[jugador].push(tiros)
-    })
+        // Se iteran sobre los tiros del jugador
+        const tiros = tirosStr.split(" ") // -> [tiro1, tiro2, tiro3]
 
-    //* Calcular puntos totales y money balls por jugador
-    const resultados = [];
+        tiros.forEach((tiro, indice) => {
+            // Se verifica si es el último tiro
+            const esUltimoTiro = indice === tiros.length - 1;
 
-    jugadores.forEach(jugador => {
-        const listaIntentos = lanzamientosMapper[jugador]
-        let puntosTotales = 0;
-        let moneyBalls = 0;
-
-        // Se recorre cada intento (cada estación)
-        listaIntentos.forEach(tiros => {
-            tiros.forEach((tiro, indice) => {
-                // Verifica si es el último tiro (indice igual a la longitud del array - 1)
-                const esUltimoTiro = indice === tiros.length - 1;
-
-                // Si el tiro es 1, significa que anotó
-                if(tiro === 1){
-                    // Se valida si encestó el último tiro (money ball)
-                    if (esUltimoTiro) {
-                        puntosTotales += 2;
-                        moneyBalls++;
-                    }else{
-                        // Si no es el último tiro, se suma 1 punto
-                        puntosTotales++;
-                    }
+            // Se verifica si el tiro es 1 (encestó)
+            if(tiro === "1"){
+                if(esUltimoTiro){
+                    puntos += 2;
+                    moneyBall++;
+                }else{
+                    puntos++;
                 }
-            })
+            }
         })
 
-        // Se crea el objeto resultadoJugador
-        const resultadoJugador = {
-            jugador,
-            puntosTotales,
-            moneyBalls
-        }
-        
-        // Se añade el resultado del jugador al array de resultados
-        resultados.push(resultadoJugador)
+        // Se actualizan los puntos y money balls del jugador
+        datosJugador.puntosTotales += puntos;
+        datosJugador.moneyBalls += moneyBall;
     })
 
-    // * Ordenar los resultados usando .sort()
+    //* Preparar array para ordenamiento final
+    const resultados = []
+
+    jugadores.forEach(jugador => {
+        // Se obtienen los datos del jugador
+        const datosJugador = lanzamientosMapper[jugador]
+        
+        // Se añade el resultado del jugador al array de resultados
+        resultados.push({
+            jugador,
+            puntosTotales: datosJugador.puntosTotales,
+            moneyBalls: datosJugador.moneyBalls
+        })
+    })
+    
+    //* Ordenar los resultados
     resultados.sort((a, b) => {
         // Criterio 1: ordenar por PUNTOS (de mayor a menor)
         if (a.puntosTotales !== b.puntosTotales) {
@@ -78,7 +76,7 @@ export default function resolverConcursoTriples(concurso){
         return a.jugador.localeCompare(b.jugador);
     })
 
-    // * Formatear la salida
+    //* Formatear la salida
     let salida = ""
     resultados.forEach((resultado, indice) => {
         // Se obtiene los resultados de cada jugador y se añaden a la salida con el formato deseado
